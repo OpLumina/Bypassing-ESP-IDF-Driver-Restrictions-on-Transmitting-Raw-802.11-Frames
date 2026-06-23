@@ -1,4 +1,4 @@
-# Bypassing ESP‑IDF Software Restrictions on Transmitting Raw 802.11 Management Frames (C++)
+# Bypassing ESP‑IDF-v5.3 Software Restrictions on Transmitting Raw 802.11 Management Frames (C++)
 ## Sources and Creds:
 **The Genius Redditor u/willstunforfood** pointed me in the right direction to find out the root cause of the issue on this post:
 https://www.reddit.com/r/WillStunForFood/comments/ot8vzl/finally_got_the_esp32_to_send_deauthentication/
