@@ -1,4 +1,7 @@
 # Bypassing ESP‑IDF Software Restrictions on Transmitting Raw 802.11 Management Frames (C++)
+## Sources and Creds:
+**The Genius Redditor u/willstunforfood** pointed me in the right direction to find out the root cause of the issue on this post:
+https://www.reddit.com/r/WillStunForFood/comments/ot8vzl/finally_got_the_esp32_to_send_deauthentication/
 
 ---
 
@@ -62,8 +65,3 @@ With this configuration, every call from `esp_wifi_80211_tx()` is resolved to th
 ---  
 
 **Summary** – By supplying a minimal stub for `ieee80211_raw_frame_sanity_check()` and linking with either `--wrap` or `-z muldefs`, researchers can bypass ESP‑IDF’s default frame‑sanity enforcement and transmit raw 802.11 management frames from an ESP32. Use responsibly and limit the override to experimental builds.
-
-
-## 4. Sources and Creds:
-The Redditor u/willstunforfood pointed me in the right direction to find out the root cause of the issue on the post:
-https://www.reddit.com/r/WillStunForFood/comments/ot8vzl/finally_got_the_esp32_to_send_deauthentication/
