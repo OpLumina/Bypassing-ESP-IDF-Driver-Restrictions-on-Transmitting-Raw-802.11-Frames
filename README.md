@@ -20,7 +20,7 @@ components/esp_wifi/lib/esp32_host/libnet80211.a
 
 ## 2. Overriding the sanity‑check  
 
-To bypass these restrictions, you can wrap the ieee80211_raw_frame_sanity_check to make the restriction pass to your own function, like just returning 0.
+To bypass these restrictions, you can wrap the ieee80211_raw_frame_sanity_check to make the restriction pass to your own function that always returns 0 (allowing the frame to pass the logic check).
 
 ### 2.1 Stub implementation  
 
