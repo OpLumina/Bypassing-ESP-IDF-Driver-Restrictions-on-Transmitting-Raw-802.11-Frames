@@ -3,7 +3,7 @@
 ---
 
 ## 1. Overview
-The ESP-IDF framework contains a software-based restriction on transmitting spoofed and other custom 802.11 Management Frames. When using the esp_wifi_80211_tx function to transmit custom 802.11 frames, it passes the request to a function named ieee80211_raw_frame_sanity_check, which is a check that drops most critical management frames, including Deauthentication (Deauth) Frames, Disassociation Frames, and Authentication / Association Requests. When using an ESP32 for security research, router operations, and other basic tasks, this can cause quite a few problems and must be bypassed prior to sending the frames.
+The ESP-IDF framework contains a software-based restriction on transmitting spoofed and other custom 802.11 Management Frames. When using the `esp_wifi_80211_tx` function to transmit custom 802.11 frames, it sends the request to a function named `ieee80211_raw_frame_sanity_check`, which is a check that filters and drops most critical management frames, including Deauthentication (Deauth) Frames, Disassociation Frames, and Authentication / Association Requests. When using an ESP32 for security research, router operations, and other basic tasks, this can cause quite a few problems and must be bypassed prior to sending the frames.
 
 **ESP‑IDF v5.3 libraries involved (found via grep):**
 
@@ -33,7 +33,7 @@ extern "C" int ieee80211_raw_frame_sanity_check(int32_t a,int32_t b,int32_t c)
 
 ### 2.2 Linker redirection  
 
-In order to pass this dummy function without build errors, you must also instruct the linker to replace the library’s definition with the stub. Two common options are to edit CMakeLists.txt to either wrap the function, or to pass the `-zmuldefs` flag:
+In order to include this dummy function without build errors, you must also instruct the linker to replace the library’s definition with the stub. Two common options are to edit CMakeLists.txt to either wrap the function, or to pass the `-zmuldefs` flag:
 
 * **Wrap mode** – `-Wl,--wrap=ieee80211_raw_frame_sanity_check`  
   The linker redirects calls to `ieee80211_raw_frame_sanity_check` to `__wrap_ieee80211_raw_frame_sanity_check`, which you provide (the stub above).
@@ -62,3 +62,8 @@ With this configuration, every call from `esp_wifi_80211_tx()` is resolved to th
 ---  
 
 **Summary** – By supplying a minimal stub for `ieee80211_raw_frame_sanity_check()` and linking with either `--wrap` or `-z muldefs`, researchers can bypass ESP‑IDF’s default frame‑sanity enforcement and transmit raw 802.11 management frames from an ESP32. Use responsibly and limit the override to experimental builds.
+
+
+## 4. Sources and Creds:
+The Redditor u/willstunforfood pointed me in the right direction to find out the root cause of the issue on the post:
+https://www.reddit.com/r/WillStunForFood/comments/ot8vzl/finally_got_the_esp32_to_send_deauthentication/
